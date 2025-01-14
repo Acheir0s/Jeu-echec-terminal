@@ -21,8 +21,8 @@ V3 : Déplacement + manger une pièce adverse
 Objectif : Implémenter la mécanique de déplacement des pièces et la possibilité de manger (capturer) les pièces adverses.
 Exemple : Dans un jeu d'échecs, vous permettez aux joueurs de déplacer leurs pièces selon les règles et de capturer les pièces ennemies qui se trouvent sur une case qu'ils occupent après un mouvement valide.
 Tâches :
-Définir les règles de déplacement pour chaque type de pièce.
-Gérer les captures de pièces (lorsqu'une pièce se déplace sur une case occupée par une pièce adverse).
+- Définir les règles de déplacement pour chaque type de pièce.
+- Gérer les captures de pièces (lorsqu'une pièce se déplace sur une case occupée par une pièce adverse).
 
 
 
@@ -31,8 +31,8 @@ V4 : Condition de victoire + déplacement particulier (ex : le roque)
 Objectif : Implémenter les conditions de victoire (par exemple, un joueur gagne lorsqu'il met l'autre joueur en échec et mat) et ajouter des déplacements spéciaux pour certaines pièces (par exemple, le roque).
 Exemple : Définir les conditions pour un échec et mat ou un match nul et intégrer des mouvements spéciaux comme le roque, la promotion des pions ou la prise en passant.
 Tâches :
-Vérifier si un joueur a gagné (par exemple, échec et mat).
-Implémenter des mouvements spéciaux (par exemple, roque, promotion de pion).
+- Vérifier si un joueur a gagné (par exemple, échec et mat).
+- Implémenter des mouvements spéciaux (par exemple, roque, promotion de pion).
 
 
 
@@ -40,8 +40,8 @@ V5 : Graphisme
 Objectif : Ajouter des graphismes au jeu. Cela inclut la conception de l'interface visuelle du plateau, des pièces.
 Exemple : Utilisation de graphiques pour représenter les pièces, le plateau, les couleurs, etc.
 Tâches :
-Créer ou importer des images pour les pièces et le plateau.
-Concevoir l'interface utilisateur (par exemple, les boutons pour démarrer le jeu, réinitialiser le jeu, etc.).
+- Créer ou importer des images pour les pièces et le plateau.
+- Concevoir l'interface utilisateur (par exemple, les boutons pour démarrer le jeu, réinitialiser le jeu, etc.).
 
 
 
