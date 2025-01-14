@@ -3,8 +3,8 @@ V1 : Créations du plateau de jeu (spécifier le nom des cases)
 Objectif : Créer le plateau de jeu et définir les différentes cases. Cela inclut la création de la structure du plateau avec les noms de chaque case. Par exemple, dans un jeu de type échecs, vous pouvez spécifier les cases par leur nom, comme A1, B2, etc.
 Exemple : Pour un jeu d'échecs, cela pourrait être la création de la grille 8x8 avec des cases étiquetées de A1 à H8.
 Tâches :
-Dessiner une grille représentant le plateau.
-Attribuer un nom ou une référence à chaque case du plateau.
+- Dessiner une grille représentant le plateau.
+- Attribuer un nom ou une référence à chaque case du plateau.
 
 
 
@@ -12,8 +12,8 @@ V2 : Création des pièces et les placer sur le plateau
 Objectif : Créer les pièces du jeu (par exemple, les pions, les tours, les cavaliers, etc.) et les placer sur leurs positions initiales sur le plateau.
 Exemple : Dans un jeu d'échecs, vous placerez les pions, les tours, les cavaliers, les fous, la reine et le roi aux positions de départ (par exemple, les pions sur la deuxième ligne et les pièces majeures sur la première ligne).
 Tâches :
-Définir les types de pièces (pion, roi, etc.).
-Placer les pièces sur le plateau à leurs positions de départ.
+- Définir les types de pièces (pion, roi, etc.).
+- Placer les pièces sur le plateau à leurs positions de départ.
 
 
 
