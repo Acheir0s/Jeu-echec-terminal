@@ -1,6 +1,6 @@
 # Jeu-echec-terminal
 V1 : Créations du plateau de jeu (spécifier le nom des cases)
-Objectif : Créer le plateau de jeu et définir les différentes cases. Cela inclut la création de la structure du plateau avec les noms de chaque case. Par exemple, dans un jeu de type échecs, vous pouvez spécifier les cases par leur nom, comme A1, B2, etc.
+.Objectif : Créer le plateau de jeu et définir les différentes cases. Cela inclut la création de la structure du plateau avec les noms de chaque case. Par exemple, dans un jeu de type échecs, vous pouvez spécifier les cases par leur nom, comme A1, B2, etc.
 Exemple : Pour un jeu d'échecs, cela pourrait être la création de la grille 8x8 avec des cases étiquetées de A1 à H8.
 Tâches :
 - Dessiner une grille représentant le plateau.
