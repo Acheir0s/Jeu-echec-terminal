@@ -558,8 +558,21 @@ class Plateau:
 
     def est_en_echec(self, couleur):
 
-        roi_position = self.afficher_positions_rois()[0] if couleur =='blanc' else self.afficher_positions_rois()[1]
-
+        for i in range(8):
+            for j in range(8):
+                # Récupère la pièce à la position actuelle.
+                piece = self.plateau[i][j]
+                
+                # Si une pièce est présente et que c'est un roi...
+                if piece and piece.getType_piece() == 'king':
+                    # Vérifie si c'est le roi blanc et sauvegarde sa position.
+                    if piece.getcouleur() == 'blanc':
+                        roi_blanc_position = (i, j)
+                    # Sinon, sauvegarde la position du roi noir.
+                    else:
+                        roi_noir_position = (i, j)
+        roi_position = roi_blanc_position if couleur == 'blanc' else roi_noir_position
+        
         for i in range(8):
             for j in range(8):
                 piece = self.plateau[i][j]
@@ -618,7 +631,7 @@ def check_victoire(self):
         # Si aucune des conditions ci-dessus n'est remplie, la partie continue.
         return False
 
-def afficher_positions_rois(self):
+def obtenir_positions_rois(self):
         # Initialise les positions des rois comme étant None au début.
         roi_blanc_position = None
         roi_noir_position = None
