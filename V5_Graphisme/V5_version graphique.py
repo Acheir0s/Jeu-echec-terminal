@@ -558,20 +558,7 @@ class Plateau:
 
     def est_en_echec(self, couleur):
 
-        for i in range(8):
-            for j in range(8):
-                # Récupère la pièce à la position actuelle.
-                piece = self.plateau[i][j]
-                
-                # Si une pièce est présente et que c'est un roi...
-                if piece and piece.getType_piece() == 'king':
-                    # Vérifie si c'est le roi blanc et sauvegarde sa position.
-                    if piece.getcouleur() == 'blanc':
-                        roi_blanc_position = (i, j)
-                    # Sinon, sauvegarde la position du roi noir.
-                    else:
-                        roi_noir_position = (i, j)
-        roi_position = roi_blanc_position if couleur == 'blanc' else roi_noir_position
+        roi_position = self.obtenir_positions_rois()[0] if couleur == 'blanc' else self.obtenir_positions_rois()[1]
         
         for i in range(8):
             for j in range(8):
@@ -583,6 +570,7 @@ class Plateau:
 
     # Vérifie si aucun mouvement légal n'est possible pour une couleur donnée
     def aucun_mouvement_legal(self, couleur):
+        roi_position = self.obtenir_positions_rois()[0] if couleur == 'blanc' else self.obtenir_positions_rois()[1]
         # Parcourir toutes les cases du plateau
         for i in range(8):
             for j in range(8):
@@ -612,47 +600,47 @@ class Plateau:
         # Retourner True si aucun mouvement légal n'est possible
         return True
 
-def check_victoire(self):
-        # Détermine la couleur actuelle en fonction du nombre de tours joués.
-        couleur_actuelle = 'blanc' if self.turn % 2 == 1 else 'noir'
-        
-        # Vérifie si le joueur actuel est en échec et n'a aucun mouvement légal.
-        if self.est_en_echec(couleur_actuelle) and self.aucun_mouvement_legal(couleur_actuelle):
-            # Si c'est le cas, annonce que le joueur a perdu la partie.
-            print("ET MAT! Le joueur ", couleur_actuelle, " a perdu.")
-            return True
-        
-        # Vérifie si le joueur actuel n'est pas en échec mais n'a aucun mouvement légal.
-        elif not self.est_en_echec(couleur_actuelle) and self.aucun_mouvement_legal(couleur_actuelle):
-            # Si c'est le cas, annonce que la partie est nulle.
-            print("Pat! La partie est nulle.")
-            return True
-        
-        # Si aucune des conditions ci-dessus n'est remplie, la partie continue.
-        return False
+    def check_victoire(self):
+            # Détermine la couleur actuelle en fonction du nombre de tours joués.
+            couleur_actuelle = 'blanc' if self.turn % 2 == 1 else 'noir'
+            
+            # Vérifie si le joueur actuel est en échec et n'a aucun mouvement légal.
+            if self.est_en_echec(couleur_actuelle) and self.aucun_mouvement_legal(couleur_actuelle):
+                # Si c'est le cas, annonce que le joueur a perdu la partie.
+                print("ET MAT! Le joueur ", couleur_actuelle, " a perdu.")
+                return True
+            
+            # Vérifie si le joueur actuel n'est pas en échec mais n'a aucun mouvement légal.
+            elif not self.est_en_echec(couleur_actuelle) and self.aucun_mouvement_legal(couleur_actuelle):
+                # Si c'est le cas, annonce que la partie est nulle.
+                print("Pat! La partie est nulle.")
+                return True
+            
+            # Si aucune des conditions ci-dessus n'est remplie, la partie continue.
+            return False
 
-def obtenir_positions_rois(self):
-        # Initialise les positions des rois comme étant None au début.
-        roi_blanc_position = None
-        roi_noir_position = None
-        
-        # Parcourt toutes les cases du plateau (8x8).
-        for i in range(8):
-            for j in range(8):
-                # Récupère la pièce à la position actuelle.
-                piece = self.plateau[i][j]
-                
-                # Si une pièce est présente et que c'est un roi...
-                if piece and piece.getType_piece() == 'king':
-                    # Vérifie si c'est le roi blanc et sauvegarde sa position.
-                    if piece.getcouleur() == 'blanc':
-                        roi_blanc_position = (i, j)
-                    # Sinon, sauvegarde la position du roi noir.
-                    else:
-                        roi_noir_position = (i, j)
-        
-        # Retourne un tuple contenant les positions des deux rois.
-        return (roi_blanc_position, roi_noir_position)
+    def obtenir_positions_rois(self):
+            # Initialise les positions des rois comme étant None au début.
+            roi_blanc_position = None
+            roi_noir_position = None
+            
+            # Parcourt toutes les cases du plateau (8x8).
+            for i in range(8):
+                for j in range(8):
+                    # Récupère la pièce à la position actuelle.
+                    piece = self.plateau[i][j]
+                    
+                    # Si une pièce est présente et que c'est un roi...
+                    if piece and piece.getType_piece() == 'king':
+                        # Vérifie si c'est le roi blanc et sauvegarde sa position.
+                        if piece.getcouleur() == 'blanc':
+                            roi_blanc_position = (i, j)
+                        # Sinon, sauvegarde la position du roi noir.
+                        else:
+                            roi_noir_position = (i, j)
+            
+            # Retourne un tuple contenant les positions des deux rois.
+            return (roi_blanc_position, roi_noir_position)
 
 
 # Dictionnaire pour inverser les cases
@@ -748,24 +736,24 @@ while running:
         plateau.afficher(screen)
         pygame.display.flip()
 
-# Vérifie si une condition de victoire est remplie
-if plateau.check_victoire():
-    # Si c'est le tour des noirs (nombre de tours impair)
-    if plateau.getturn() % 2 == 1:
-        # Affiche un message de victoire pour les noirs
-        screen.blit(pygame.image.load("image/message de victoire pour les noir.PNG"), (0, 0))
-    else:
-        # Sinon, affiche un message de victoire pour les blancs
-        screen.blit(pygame.image.load("image/message de victoire pour les blanc.PNG"), (0, 0))
-    # Met à jour l'affichage pour montrer le message
-    pygame.display.flip()
-    # Attend une seconde pour que le joueur puisse voir le message
-    pygame.time.delay(1000)
-    # Vérifie si une touche est pressée
-    if event.type == pygame.KEYDOWN:
-        # Si la touche "Échap" est pressée, arrête la boucle principale
-        if event.key == pygame.K_ESCAPE:
-            running = False
+    # Vérifie si une condition de victoire est remplie
+    if plateau.check_victoire():
+        # Si c'est le tour des noirs (nombre de tours impair)
+        if plateau.getturn() % 2 == 1:
+            # Affiche un message de victoire pour les noirs
+            screen.blit(pygame.image.load("image/message de victoire pour les noir.PNG"), (0, 0))
+        else:
+            # Sinon, affiche un message de victoire pour les blancs
+            screen.blit(pygame.image.load("image/message de victoire pour les blanc.PNG"), (0, 0))
+        # Met à jour l'affichage pour montrer le message
+        pygame.display.flip()
+        # Attend une seconde pour que le joueur puisse voir le message
+        pygame.time.delay(1000)
+        # Vérifie si une touche est pressée
+        if event.type == pygame.KEYDOWN:
+            # Si la touche "Échap" est pressée, arrête la boucle principale
+            if event.key == pygame.K_ESCAPE:
+                running = False
 
 # Quitte pygame proprement lorsque la boucle principale est terminée
 pygame.quit()
