@@ -398,7 +398,7 @@ class Plateau:
         # on place les pieces noires
         self.plateau[6] = [Pion('noir')] * 8
         self.plateau[7] = [Tour('noir'), Cavalier('noir'), Fou('noir'), Reine('noir'), Roi('noir'), Fou('noir'), Cavalier('noir'), Tour('noir')]
-        self.plateau[6][0] = Pion('blanc')
+        
 
 
     def afficher(self, screen):
@@ -458,9 +458,13 @@ class Plateau:
                     
                     # Vérifier si un pion atteint la dernière rangée
                     if piece.getType_piece() == 'pion' and ((piece.getcouleur() == 'blanc' and arrivee[0] == 7) or (piece.getcouleur() == 'noir' and arrivee[0] == 0)):
-                        self.afficher_promotion(piece, arrivee)
-                        self.turn += 1
-                        return
+                        if piece.mouvement_valide(depart, arrivee, piece_arrivee, plateau):
+                            # Appeler la fonction de promotion
+                            self.plateau[arrivee[0]][arrivee[1]] = piece
+                            self.plateau[depart[0]][depart[1]] = None
+                            self.afficher_promotion(piece, arrivee)
+                            self.turn += 1
+                            return
 
                     else:
                         # on regarde si on prend une pièce adverse ou pas
