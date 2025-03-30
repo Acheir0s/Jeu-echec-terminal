@@ -398,6 +398,7 @@ class Plateau:
         # on place les pieces noires
         self.plateau[6] = [Pion('noir')] * 8
         self.plateau[7] = [Tour('noir'), Cavalier('noir'), Fou('noir'), Reine('noir'), Roi('noir'), Fou('noir'), Cavalier('noir'), Tour('noir')]
+        self.plateau[6][0] = Pion('blanc')
 
 
     def afficher(self, screen):
@@ -454,43 +455,13 @@ class Plateau:
                         self.plateau[depart[0]][depart[1]] = None
                         self.turn += 1
                         return
+                    
+                    # Vérifier si un pion atteint la dernière rangée
+                    if piece.getType_piece() == 'pion' and ((piece.getcouleur() == 'blanc' and arrivee[0] == 7) or (piece.getcouleur() == 'noir' and arrivee[0] == 0)):
+                        self.afficher_promotion(piece, arrivee)
+                        self.turn += 1
+                        return
 
-                    # promotion du pion
-                    if piece.getcouleur() == 'blanc' and arrivee[0] == 7 and piece.getType_piece() == 'pion':
-                        transformation = 'ok'
-                        # on regarde quelle pièce on veut avoir
-                        while transformation not in ['Reine', 'Cavalier', 'Fou', 'Tour']:
-                            transformation = input('En quelle pièce voulez-vous transformer votre pion (ex: Reine, Cavalier, etc) ')
-                            # on change la pièce en Reine
-                            if transformation == 'Reine':
-                                piece = Reine('blanc')
-                                self.plateau[arrivee[0]][arrivee[1]] = piece
-                                self.plateau[depart[0]][depart[1]] = None
-                                self.turn += 1
-                                break
-                            # on change la pièce en Cavalier
-                            elif transformation == 'Cavalier':
-                                piece = Cavalier('blanc')
-                                self.plateau[arrivee[0]][arrivee[1]] = piece
-                                self.plateau[depart[0]][depart[1]] = None
-                                self.turn += 1
-                                break
-                            # on change la pièce en Fou
-                            elif transformation == 'Fou':
-                                piece = Fou('blanc')
-                                self.plateau[arrivee[0]][arrivee[1]] = piece
-                                self.plateau[depart[0]][depart[1]] = None
-                                self.turn += 1
-                                break
-                            # on change la pièce en Tour
-                            elif transformation == 'Tour':
-                                piece = Tour('blanc')
-                                self.plateau[arrivee[0]][arrivee[1]] = piece
-                                self.plateau[depart[0]][depart[1]] = None
-                                self.turn += 1
-                                break
-                            else:
-                                print("Cette transformation n'est pas valide")
                     else:
                         # on regarde si on prend une pièce adverse ou pas
                         if piece_arrivee is None:
@@ -538,6 +509,51 @@ class Plateau:
                 print('Cette pièce ne vous appartient pas')
         else:
             print("Vous n'avez pas sélectionné de pièce")
+
+
+    def afficher_promotion(self, pion, position):
+        # Créer une surface pour la promotion
+        promotion_surface = pygame.Surface((400, 100))
+        promotion_surface.fill((200, 200, 200))
+
+        # Charger les images des pièces
+        reine_img = reine_blanc if pion.getcouleur() == 'blanc' else reine_noir
+        tour_img = tour_blanc if pion.getcouleur() == 'blanc' else tour_noir
+        fou_img = fou_blanc if pion.getcouleur() == 'blanc' else fou_noir
+        cavalier_img = cavalier_blanc if pion.getcouleur() == 'blanc' else cavalier_noir
+
+        # Positions des images
+        images = [reine_img, tour_img, fou_img, cavalier_img]
+        rects = []
+        for i, img in enumerate(images):
+            rect = pygame.Rect(100 * i, 0, 100, 100)
+            promotion_surface.blit(img, rect.topleft)
+            rects.append(rect)
+
+        # Afficher la surface de promotion
+        screen.blit(promotion_surface, (200, 350))
+        pygame.display.flip()
+
+        # Attendre que le joueur sélectionne une pièce
+        while True:
+            for event in pygame.event.get():
+                if event.type == pygame.MOUSEBUTTONDOWN:
+                    pos = pygame.mouse.get_pos()
+                    for i, rect in enumerate(rects):
+                        if rect.move(200, 350).collidepoint(pos):
+                            # Remplacer le pion par la pièce sélectionnée
+                            if i == 0:
+                                nouvelle_piece = Reine(pion.getcouleur())
+                            elif i == 1:
+                                nouvelle_piece = Tour(pion.getcouleur())
+                            elif i == 2:
+                                nouvelle_piece = Fou(pion.getcouleur())
+                            elif i == 3:
+                                nouvelle_piece = Cavalier(pion.getcouleur())
+                            
+                            # Affecter la nouvelle pièce à la position du pion
+                            self.plateau[position[0]][position[1]] = nouvelle_piece
+                            return
 
     # demande de la case
     def demander_mouvement(self,depart,arrivee):
@@ -601,23 +617,23 @@ class Plateau:
         return True
 
     def check_victoire(self):
-            # Détermine la couleur actuelle en fonction du nombre de tours joués.
-            couleur_actuelle = 'blanc' if self.turn % 2 == 1 else 'noir'
+        # Détermine la couleur actuelle en fonction du nombre de tours joués.
+        couleur_actuelle = 'blanc' if self.turn % 2 == 1 else 'noir'
+        
+        # Vérifie si le joueur actuel est en échec et n'a aucun mouvement légal.
+        if self.est_en_echec(couleur_actuelle) and self.aucun_mouvement_legal(couleur_actuelle):
+            # Si c'est le cas, annonce que le joueur a perdu la partie.
+            print("ET MAT! Le joueur ", couleur_actuelle, " a perdu.")
+            return True
+        
+        # Vérifie si le joueur actuel n'est pas en échec mais n'a aucun mouvement légal.
+        elif not self.est_en_echec(couleur_actuelle) and self.aucun_mouvement_legal(couleur_actuelle):
+            # Si c'est le cas, annonce que la partie est nulle.
+            print("Pat! La partie est nulle.")
+            return True
             
-            # Vérifie si le joueur actuel est en échec et n'a aucun mouvement légal.
-            if self.est_en_echec(couleur_actuelle) and self.aucun_mouvement_legal(couleur_actuelle):
-                # Si c'est le cas, annonce que le joueur a perdu la partie.
-                print("ET MAT! Le joueur ", couleur_actuelle, " a perdu.")
-                return True
-            
-            # Vérifie si le joueur actuel n'est pas en échec mais n'a aucun mouvement légal.
-            elif not self.est_en_echec(couleur_actuelle) and self.aucun_mouvement_legal(couleur_actuelle):
-                # Si c'est le cas, annonce que la partie est nulle.
-                print("Pat! La partie est nulle.")
-                return True
-            
-            # Si aucune des conditions ci-dessus n'est remplie, la partie continue.
-            return False
+        # Si aucune des conditions ci-dessus n'est remplie, la partie continue.
+        return False
 
     def obtenir_positions_rois(self):
             # Initialise les positions des rois comme étant None au début.
@@ -735,6 +751,10 @@ while running:
         screen.blit(echequier, (0, 0))
         plateau.afficher(screen)
         pygame.display.flip()
+
+
+
+
 
     # Vérifie si une condition de victoire est remplie
     if plateau.check_victoire():
